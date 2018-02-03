@@ -277,4 +277,4 @@ class SI1145(object):
     @property
     def read_prox(self):
         """Returns "Proximity" - assumes an IR LED is attached to LED"""
-return self._read16(0x26, le=True)
+        return self._read16(0x26, le=True)
