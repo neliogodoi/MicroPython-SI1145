@@ -1,5 +1,5 @@
 """
- Version: 0.1.2
+ Version: 2.0
  Author: Nelio Goncalves Godoi
  E-mail: neliogodoi@yahoo.com.br
  Last Update: 09/02/2018
