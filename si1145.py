@@ -1,8 +1,8 @@
 """
  Version: 0.1.2
- Author: Nélio Gonçalves Godoi
+ Author: Nelio Goncalves Godoi
  E-mail: neliogodoi@yahoo.com.br
- Last Update: 01/12/2017
+ Last Update: 09/02/2018
  Stylized According to PEP8: 18/01/2018
  Based on the work by author Joe Gutting (2014)
     (https://github.com/THP-JOE/Python_SI1145)
@@ -113,37 +113,32 @@ SI1145_REG_UVINDEX0 = 0x2C
 SI1145_REG_UVINDEX1 = 0x2D
 SI1145_REG_PARAMRD = 0x2E
 SI1145_REG_CHIPSTAT = 0x30
-# I2C Address
-SI1145_ADDR = 0x60
+SI1145_ADDR = 0x60  # I2C Address
 
 
 class SI1145(object):
     """Driver for SI1145 sensor"""
 
     def __init__(self, i2c=None, addr=SI1145_ADDR):
-
         if i2c is None:
             raise ValueError('An I2C object is required.')
         self._i2c = i2c
         self._addr = addr
-        # reset device
-        self._reset()
-        # Load calibration values.
-        self._load_calibration()
+        self._reset()  # reset device
+        self._load_calibration()  # Load calibration values
 
     def _read8(self, register):
         result = unpack(
             'B',
             self._i2c.readfrom_mem(
-                self._addr,
-                register, 1)
+                self._addr, register, 1)
         )[0] & 0xFF
         return result
 
-    def _read16(self, register, le=True):
+    def _read16(self, register, little_endian=True):
         result = unpack('BB', self._i2c.readfrom_mem(self._addr, register, 2))
-        result = ((result[0] << 8) | (result[1] & 0x0FF))
-        if not le:
+        result = ((result[1] << 8) | (result[0] & 0xFF))
+        if not little_endian:
             result = ((result << 8) & 0xFF00) + (result >> 8)
         return result
 
@@ -151,12 +146,8 @@ class SI1145(object):
         value = value & 0xFF
         self._i2c.writeto_mem(self._addr, register, bytes([value]))
 
-    def _write16(self, register, value):
-        value = value & 0xFFFF
-        self._i2c.writeto_mem(self._addr, register, bytes([value]))
-
-    # device reset
     def _reset(self):
+        """Device reset"""
         self._write8(SI1145_REG_MEASRATE0, 0x00)
         self._write8(SI1145_REG_MEASRATE1, 0x00)
         self._write8(SI1145_REG_IRQEN, 0x00)
@@ -179,15 +170,16 @@ class SI1145(object):
     # load calibration to sensor
     def _load_calibration(self):
         # Enable UVindex measurement coefficients!
-        self._write8(SI1145_REG_UCOEFF0, 0x29)
-        self._write8(SI1145_REG_UCOEFF1, 0x89)
-        self._write8(SI1145_REG_UCOEFF2, 0x02)
+        self._write8(SI1145_REG_UCOEFF0, 0x7B)
+        self._write8(SI1145_REG_UCOEFF1, 0x6B)
+        self._write8(SI1145_REG_UCOEFF2, 0x01)
         self._write8(SI1145_REG_UCOEFF3, 0x00)
 
         # Enable UV sensor
         self._write_param(
             SI1145_PARAM_CHLIST,
             SI1145_PARAM_CHLIST_ENUV |
+            SI1145_PARAM_CHLIST_ENAUX |
             SI1145_PARAM_CHLIST_ENALSIR |
             SI1145_PARAM_CHLIST_ENALSVIS |
             SI1145_PARAM_CHLIST_ENPS1)
@@ -196,7 +188,6 @@ class SI1145(object):
         self._write8(SI1145_REG_IRQEN, SI1145_REG_IRQEN_ALSEVERYSAMPLE)
 
         # /***** Prox Sense 1 */
-
         # Program LED current
         # 20mA for LED 1 only
         self._i2c.writeto_mem(SI1145_ADDR, SI1145_REG_PSLED21, b'0x03')
@@ -254,27 +245,25 @@ class SI1145(object):
             SI1145_PARAM_ALSVISADCMISC_VISRANGE)
 
         # measurement rate for auto
-        # 255 * 31.25uS = 8ms
-        self._write8(SI1145_REG_MEASRATE0, 0xFF)
-        # auto run
-        self._write8(SI1145_REG_COMMAND, SI1145_PSALS_AUTO)
+        self._write8(SI1145_REG_MEASRATE0, 0xFF)  # 255 * 31.25uS = 8ms
+        self._write8(SI1145_REG_COMMAND, SI1145_PSALS_AUTO)  # auto run
 
     @property
     def read_uv(self):
         """Returns the UV index"""
-        return self._read16(0x2C, le=True) / 100
+        return self._read16(0x2C, little_endian=True) / 100
 
     @property
     def read_visible(self):
         """Returns visible + IR light levels"""
-        return self._read16(0x22, le=True)
+        return self._read16(0x22, little_endian=True)
 
     @property
     def read_ir(self):
         """Returns IR light levels"""
-        return self._read16(0x24, le=True)
+        return self._read16(0x24, little_endian=True)
 
     @property
     def read_prox(self):
         """Returns "Proximity" - assumes an IR LED is attached to LED"""
-        return self._read16(0x26, le=True)
+        return self._read16(0x26, little_endian=True)
