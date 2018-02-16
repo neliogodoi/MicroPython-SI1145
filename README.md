@@ -10,24 +10,7 @@ https://www.silabs.com/documents/public/data-sheets/Si1145-46-47.pdf
  - Output Type: I2C address 0x60 (7-bit)
  - Operating Temperature: -40°C ~ 85°C
 ## Testing
-#### ESP32
-
-```python
-# ESP32 simple teste
-import machine
-import si1145
-import time
-i2c = machine.I2C(
-    sda=machine.Pin(21),
-    scl=machine.Pin(22))
-sensor = si1145.SI1145(i2c=i2c)
-for i in range(10):
-    uv = sensor.read_uv
-    ir = sensor.read_ir
-    view = sensor.read_visible
-    print(" UV: %f\n IR: %f\n Visible: %f" % (uv, ir, view))
-    time.sleep(1)
-```
+Download one of the following codes for your device:
 #### ESP8266
 ```python
 # ESP8266 simple teste
@@ -45,8 +28,24 @@ for i in range(10):
     print(" UV: %f\n IR: %f\n Visible: %f" % (uv, ir, view))
     time.sleep(1)
 ```
+#### ESP32
+```python
+# ESP32 simple teste
+import machine
+import si1145
+import time
+i2c = machine.I2C(
+    sda=machine.Pin(21),
+    scl=machine.Pin(22))
+sensor = si1145.SI1145(i2c=i2c)
+for i in range(10):
+    uv = sensor.read_uv
+    ir = sensor.read_ir
+    view = sensor.read_visible
+    print(" UV: %f\n IR: %f\n Visible: %f" % (uv, ir, view))
+    time.sleep(1)
+```
 #### LoPy
-
 ```python
 # LoPy simple teste
 from machine import I2C
