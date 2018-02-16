@@ -3,7 +3,7 @@
 The SI1145 is a sensor from Silicon Laboratories with a calibrated light sensing algorithm that can calculate UV Index.
 ### DataSheet: 
 https://www.silabs.com/documents/public/data-sheets/Si1145-46-47.pdf
-### Caracteristícas:
+### Features:
  - IR Sensor Spectrum: Wavelength: 550nm-1000nm (centered on 800)
  - Visible Light Sensor Spectrum: Wavelength: 400nm-800nm (centered on 530)
  - Voltage Supply: Power with 3-5VDC
