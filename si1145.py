@@ -1,5 +1,5 @@
 """
- Version: 2.0
+ Version: 2.1
  Author: Nelio Goncalves Godoi
  E-mail: neliogodoi@yahoo.com.br
  Last Update: 09/02/2018
@@ -257,6 +257,12 @@ class SI1145(object):
     def read_visible(self):
         """Returns visible + IR light levels"""
         return self._read16(0x22, little_endian=True)
+      
+    @property
+    def read_visible_lux(self):
+        """Returns visible + IR light levels"""
+       visible = self._read16(0x22, little_endian=True)
+       return visible*14.5*0.2
 
     @property
     def read_ir(self):
