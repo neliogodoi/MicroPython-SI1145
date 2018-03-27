@@ -9,6 +9,8 @@ https://www.silabs.com/documents/public/data-sheets/Si1145-46-47.pdf
  - Voltage Supply: Power with 3-5VDC
  - Output Type: I2C address 0x60 (7-bit)
  - Operating Temperature: -40°C ~ 85°C
+## Driver version for developers
+The driver version for developers (si1145-dev.py) is slightly larger in size as it contains comments to help understanding
 ## Testing
 Download one of the following codes for your device:
 #### ESP8266
