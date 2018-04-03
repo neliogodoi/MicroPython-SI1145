@@ -1,9 +1,8 @@
 """
- Version: 0.3.0 light
+ Version: 0.3.0
  Author: Nelio Goncalves Godoi
  E-mail: neliogodoi@yahoo.com.br
  Last Update: 02/04/2018
- Stylized According to PEP8: 18/01/2018
  Based on the work by author Joe Gutting (2014)
     (https://github.com/THP-JOE/Python_SI1145)
 """
@@ -12,7 +11,6 @@ import time
 from ustruct import unpack
 
 class SI1145(object):
-    """Driver for SI1145 sensor"""
 
     def __init__(self, i2c=None, addr=0x60):
         if i2c is None:
@@ -42,7 +40,6 @@ class SI1145(object):
         self._i2c.writeto_mem(self._addr, register, bytes([value]))
 
     def _reset(self):
-        """Device reset"""
         self._write8(0x08, 0x00)
         self._write8(0x09, 0x00)
         self._write8(0x04, 0x00)
@@ -86,20 +83,16 @@ class SI1145(object):
 
     @property
     def read_uv(self):
-        """Returns the UV index"""
         return self._read16(0x2C, little_endian=True) / 100
 
     @property
     def read_visible(self):
-        """Returns visible + IR light levels"""
         return self._read16(0x22, little_endian=True)
 
     @property
     def read_ir(self):
-        """Returns IR light levels"""
         return self._read16(0x24, little_endian=True)
 
     @property
     def read_prox(self):
-        """Returns "Proximity" - assumes an IR LED is attached to LED"""
         return self._read16(0x26, little_endian=True)
