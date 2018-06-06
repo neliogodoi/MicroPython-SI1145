@@ -67,7 +67,7 @@ class SI1145(object):
         self._write8(0x04, 0x01)
         self._i2c.writeto_mem(0x60, 0x0F, b'0x03')
         self._write_param(0x07, 0x03)
-        self._write_param 0x02, 0x01)
+        self._write_param(0x02, 0x01)
         self._write_param(0x0B, 0)
         self._write_param(0x0A, 0x70)
         self._write_param(0x0C, 0x20 | 0x04)
