@@ -62,3 +62,18 @@ for i in range(10):
     print(" UV: %f\n IR: %f\n Visible: %f" % (uv, ir, view))
     time.sleep(1)
 ```
+#### BBC Micro:bit
+```python
+# Micro:bit simple teste
+from microbit import i2c
+import si1145
+import time
+
+sensor = si1145.SI1145(i2c=i2c)
+for i in range(10):
+    uv = sensor.read_uv()
+    ir = sensor.read_ir()
+    view = sensor.read_visible()
+    print(" UV: {}\n IR: {}\n Visible: {}".format(uv, ir, view))
+    time.sleep(1)
+```
