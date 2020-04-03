@@ -3,6 +3,7 @@ MicroPython driver for SI1145 light I2C sensor, low memory version, specific for
 https://github.com/neliogodoi/MicroPython-SI1145
 Version: 0.2.0 @ 2018/06/14
 """
+from time import sleep
 
 class SI1145:
     def __init__(self, i2c, addr=0x60):
