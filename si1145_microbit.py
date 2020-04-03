@@ -3,6 +3,7 @@ MicroPython driver for SI1145 light I2C sensor, developer version, specific for 
 https://github.com/neliogodoi/MicroPython-SI1145
 Version: 0.2.0 @ 2018/06/14
 """
+from time import sleep
 
 class SI1145:
     """Driver for SI1145 light sensor with I2C interface"""
